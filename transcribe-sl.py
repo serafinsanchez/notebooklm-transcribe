@@ -34,7 +34,7 @@ def update_speaker_names():
     }
 
 def reset_session():
-    for key in ['transcript_data', 'speaker_names', 'speaker_a_name', 'speaker_b_name']:
+    for key in ['transcript_data', 'speaker_names', 'speaker_a_name', 'speaker_b_name', 'show_full_transcript']:
         if key in st.session_state:
             del st.session_state[key]
     # Generate a new unique key for the file uploader
@@ -78,24 +78,38 @@ def main():
         for utterance in st.session_state.transcript_data["utterances"][:5]:
             st.text(f"Speaker {utterance['speaker']}: {utterance['text']}")
 
-        # Use a form for name inputs
-        with st.form(key='speaker_names_form'):
-            st.text_input("Enter name for Speaker A:", key="speaker_a_name", value=st.session_state.speaker_names['A'])
-            st.text_input("Enter name for Speaker B:", key="speaker_b_name", value=st.session_state.speaker_names['B'])
-            submit_button = st.form_submit_button(label='Apply Names', on_click=update_speaker_names)
+        # Speaker name inputs in one row
+        col1, col2 = st.columns(2)
+        with col1:
+            speaker_a = st.text_input("Enter name for Speaker A:", key="speaker_a_name", value=st.session_state.speaker_names['A'])
+        with col2:
+            speaker_b = st.text_input("Enter name for Speaker B:", key="speaker_b_name", value=st.session_state.speaker_names['B'])
 
-        if st.session_state.speaker_names['A'] and st.session_state.speaker_names['B']:
-            # Display full transcript with assigned names
+        # Buttons in separate rows
+        apply_names_disabled = not (speaker_a and speaker_b)
+        if st.button('Generate Custom Transcript', on_click=update_speaker_names, disabled=apply_names_disabled):
+            st.rerun()
+
+        if st.button('Generate Default Transcript'):
+            st.session_state.show_full_transcript = True
+            st.rerun()
+
+        if st.session_state.get('show_full_transcript', False) or (st.session_state.speaker_names['A'] and st.session_state.speaker_names['B']):
+            # Display full transcript
             st.subheader("Full transcript:")
             full_transcript = ""
             for utterance in st.session_state.transcript_data["utterances"]:
-                line = f"{st.session_state.speaker_names[utterance['speaker']]}: {utterance['text']}\n"
+                if st.session_state.speaker_names['A'] and st.session_state.speaker_names['B']:
+                    speaker_name = st.session_state.speaker_names[utterance['speaker']]
+                else:
+                    speaker_name = f"Speaker {utterance['speaker']}"
+                line = f"{speaker_name}: {utterance['text']}\n"
                 st.text(line)
                 full_transcript += line
 
             # Add download buttons
             st.download_button(
-                label="Download Full Transcript",
+                label="Download Full Transcript (TXT)",
                 data=full_transcript,
                 file_name="transcript.txt",
                 mime="text/plain",
@@ -118,8 +132,7 @@ def main():
                 key="download_vtt"
             )
         else:
-            st.warning("Please enter names for both speakers.")
+            st.info("Enter names for both speakers and click 'Generate Custom Transcript' to see the full transcript with custom names, or click 'Generate Default Transcript' to see the full transcript with generic speaker labels.")
 
 if __name__ == "__main__":
     main()
-
