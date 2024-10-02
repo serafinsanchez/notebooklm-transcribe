@@ -41,7 +41,7 @@ def reset_session():
     st.session_state.file_uploader_key = str(uuid.uuid4())
 
 def main():
-    st.title("NotebookLM Transcription App")
+    st.title("NotebookLM Transcriber")
 
     # Initialize session state
     if 'transcript_data' not in st.session_state:
