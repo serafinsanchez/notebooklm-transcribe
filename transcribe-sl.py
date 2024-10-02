@@ -13,7 +13,7 @@ load_dotenv()
 aai.settings.api_key = st.secrets["ASSEMBLYAI_API_KEY"]
 
 
-@st.cache_data
+@st.cache_data(show_spinner=False)
 def transcribe_audio(audio_file):
     config = aai.TranscriptionConfig(speaker_labels=True)
     transcript = aai.Transcriber().transcribe(audio_file, config)
