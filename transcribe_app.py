@@ -3,9 +3,15 @@ import assemblyai as aai
 import tempfile
 import os
 import uuid
+from dotenv import load_dotenv
 
-# Set your AssemblyAI API key
-aai.settings.api_key = "61d241cdcdf4455d8af14f4d40514ebc"
+
+# Load environment variables from .env file
+load_dotenv()
+
+# Read the API key from the environment variable
+aai.settings.api_key = os.environ.get("ASSEMBLYAI_API_KEY")
+
 
 @st.cache_data
 def transcribe_audio(audio_file):

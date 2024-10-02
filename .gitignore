@@ -1,0 +1,8 @@
+# .gitignore
+__pycache__/
+*.pyc
+.env
+venv/
+transcribe-audio.py
+transcribe-streaming.py
+

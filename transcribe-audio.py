@@ -1,10 +1,12 @@
 import assemblyai as aai
+import os
+from dotenv import load_dotenv
 
-aai.settings.api_key = "61d241cdcdf4455d8af14f4d40514ebc"
+# Load environment variables from .env file
+load_dotenv()
 
-# You can use a local filepath:
-# audio_file = "./example.mp3"
-
+# Read the API key from the environment variable
+aai.settings.api_key = os.environ.get("ASSEMBLYAI_API_KEY")
 # Or use a publicly-accessible URL:
 audio_file = (
     "https://assembly.ai/wildfires.mp3"
