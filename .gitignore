@@ -1,8 +1,27 @@
 # .gitignore
+# Byte-compiled / cache files
 __pycache__/
 *.pyc
+
+# Environment variables
 .env
+
+# Virtual environment
 venv/
-transcribe-audio.py
-transcribe-streaming.py
+
+# OS files
+.DS_Store
+
+# Jupyter Notebook checkpoints (if any)
+.ipynb_checkpoints/
+
+# VSCode settings (optional)
+.vscode/
+
+basic-transcribe.py
+transcribe-default.py
+transcribe-sl.py
+transcribe-default.py
+/docs
+
 

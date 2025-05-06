@@ -1,3 +1,5 @@
 streamlit
 assemblyai
 python-dotenv
+google-cloud-translate
+google-auth
