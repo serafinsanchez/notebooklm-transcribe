@@ -13,7 +13,7 @@ A Streamlit web app for transcribing audio files in multiple languages using [As
 
 ## Demo
 
-![App Demo](/screenshot.png)
+![App Demo](screenshot.gif)
 
 ## Setup
 
